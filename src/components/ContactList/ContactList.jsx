@@ -2,30 +2,32 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import s from './ContactList.module.css';
 import Button from '../Button/Button';
-import { remove } from 'redux/contactSlice';
+import { selectFilteredContacts } from 'redux/selectors';
+import { deleteContact } from 'redux/operations';
+
 
 function ContactList() {
-  const items = useSelector((state) => state.contacts.items);
-  const nameFilter = useSelector((state) => state.contacts.filter);
+  const items = useSelector(selectFilteredContacts);
+  // const nameFilter = useSelector((state) => state.contacts.filter);
   const dispatch = useDispatch();
 
-  const deleteContact = (contactId) => {
-    dispatch(remove(contactId));
+  const removeContact = (contactId) => {
+    dispatch(deleteContact(contactId));
   };
 
-  const FilterItems = () => {
-    return items.filter((item) => item.name.toLowerCase().includes(nameFilter));
-  };
+  // const FilterItems = () => {
+  //   return items.filter((item) => item.name.toLowerCase().includes(nameFilter));
+  // };
 
-  let contacts = nameFilter === "" ? items : FilterItems();
+  // let contacts = nameFilter === "" ? items : FilterItems();
 
   return (
     <ul className={s.container}>
-      {contacts.map(({ id, name, number }) => (
+      {items.map(({ id, name, phone }) => (
         <li key={id} className={s.item}>
           <p className={s.text}>{name} :</p>
-          <p className={s.text}>{number}</p>
-          <Button text="Delete" onClick={() => deleteContact(id)} />
+          <p className={s.text}>{phone}</p>
+          <Button text="Delete" onClick={() => removeContact(id)} />
         </li>
       ))}
     </ul>

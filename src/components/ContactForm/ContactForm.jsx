@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { Report } from 'notiflix/build/notiflix-report-aio';
 import { useDispatch, useSelector } from 'react-redux';
-import { add, getContactState } from 'redux/contactSlice';
+import { selectContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
 
 import s from './ContactForm.module.css';
 import Button from '../Button/Button';
@@ -10,7 +11,7 @@ import Button from '../Button/Button';
 function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const contacts = useSelector(getContactState);
+  const contacts = useSelector(selectContacts);
 
   const dispatch = useDispatch();
 
@@ -43,7 +44,7 @@ function ContactForm() {
     if (isAdded) {
       return;
     }
-    dispatch(add(contact));
+    dispatch(addContact(contact));
     setName('');
     setNumber('');
   };

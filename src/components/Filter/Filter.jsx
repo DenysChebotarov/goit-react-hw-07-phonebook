@@ -1,13 +1,14 @@
 import { useSelector, useDispatch } from 'react-redux';
 import s from './Filter.module.css';
 
-import { filter } from 'redux/contactSlice';
+import { setStatusFilter } from 'redux/filterSlice';
+import { selectFilter } from 'redux/selectors';
 
 function Filter() {
   const dispatch = useDispatch();
-  const value = useSelector(state => state.contacts.filter);
+  const value = useSelector(selectFilter);
   const onChange = e => {
-    dispatch(filter(e.currentTarget.value.toLocaleLowerCase()));
+    dispatch(setStatusFilter(e.currentTarget.value.toLocaleLowerCase()));
   };
 
   return (
